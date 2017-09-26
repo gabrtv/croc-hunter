@@ -9,7 +9,14 @@ metadata:
   name: {{ template "fullname" . }}
 spec:
   rules:
-  - host: {{ .Values.ingress.hostname | quote }}
+  - host: "{{ .Values.ingress.appName }}.{{ .Values.ingress.base }}"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ template "fullname" . }}
+          servicePort: {{ .Values.servicePort }}
+  - host: "{{ .Values.ingress.appName }}.{{ .Values.region }}.{{ .Values.ingress.base }}"
     http:
       paths:
       - path: /
@@ -20,6 +27,7 @@ spec:
   tls:
   - secretName: {{ .Values.ingress.hostname | quote }}
     hosts:
-      - {{ .Values.ingress.hostname | quote }}
+      - "{{ .Values.ingress.appName }}.{{ .Values.ingress.base }}"
+      - "{{ .Values.ingress.appName }}.{{ .Values.region }}.{{ .Values.ingress.base }}"
 {{- end -}}
 {{- end }}

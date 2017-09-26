@@ -52,8 +52,10 @@ spec:
               cpu: "{{.Values.cpu}}"
               memory: "{{.Values.memory}}"
           env:
-          - name: WORKFLOW_RELEASE
-            value: {{.Release.Name | quote }}
+          - name: REGION
+            value: {{.Values.region | quote }}
+          - name: GIT_SHA
+            value: {{.Values.imageTag | quote }}
           livenessProbe:
             httpGet:
               path: /healthz
